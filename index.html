@@ -8,10 +8,7 @@
   <!-- Confetti library -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
-Here is the complete and corrected <style> tag. I have organized it to ensure the animations are properly closed and the Heartbeat and Float effects work together perfectly.
-
-CSS
-<style>
+  <style>
     :root {
       --bg1: #ffd6e7;
       --bg2: #ffeef6;
@@ -58,7 +55,7 @@ CSS
       margin: 0 auto 10px;
       display: block;
       filter: drop-shadow(0 10px 14px rgba(0,0,0,.12));
-      /* Animal floating effect */
+      /* ADD THIS LINE BELOW */
       animation: float 3s ease-in-out infinite;
     }
 
@@ -95,8 +92,6 @@ CSS
       left: 18%;
       background: var(--yes);
       color: #fff;
-      /* Heartbeat effect */
-      animation: heartbeat 1.5s ease-in-out infinite;
     }
     #yesBtn:hover { background: var(--yesHover); }
 
@@ -129,24 +124,15 @@ CSS
       display: block;
     }
 
-    /* --- ANIMATION KEYFRAMES --- */
-
     @keyframes pop {
       from { transform: scale(.96); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
     }
 
+    /* ADD THE FLOAT KEYFRAMES HERE */
     @keyframes float {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-20px); }
-    }
-
-    @keyframes heartbeat {
-      0% { transform: translateY(-50%) scale(1); }
-      14% { transform: translateY(-50%) scale(1.1); }
-      28% { transform: translateY(-50%) scale(1); }
-      42% { transform: translateY(-50%) scale(1.15); }
-      70% { transform: translateY(-50%) scale(1); }
     }
   </style>
 </head>
@@ -193,7 +179,7 @@ CSS
             fill="#ff7aa2"/>
     </svg>
 
-    <h1>Apurva will you be my valentine?</h1>
+    <h1>nirali will you be my valentine?</h1>
 
     <section class="button-zone" id="zone">
       <button id="yesBtn">Yes</button>
@@ -322,5 +308,8 @@ CSS
   </script>
 </body>
 </html>
+
+
+
 
 
