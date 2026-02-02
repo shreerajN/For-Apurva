@@ -55,6 +55,8 @@
       margin: 0 auto 10px;
       display: block;
       filter: drop-shadow(0 10px 14px rgba(0,0,0,.12));
+      /* ADD THIS LINE BELOW */
+      animation: float 3s ease-in-out infinite;
     }
 
     h1 {
@@ -125,6 +127,12 @@
     @keyframes pop {
       from { transform: scale(.96); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
+    }
+
+    /* ADD THE FLOAT KEYFRAMES HERE */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
     }
   </style>
 </head>
