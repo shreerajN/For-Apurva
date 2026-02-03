@@ -190,7 +190,6 @@
       document.body.appendChild(heart);
       setTimeout(() => heart.remove(), 6000);
     }
-    setInterval(createHeart, 600);
 
     const zone = document.getElementById("zone");
     const yesBtn = document.getElementById("yesBtn");
@@ -267,14 +266,19 @@
     });
 
     yesBtn.addEventListener("click", () => {
-      document.getElementById("vdaySong").play().catch(() => {});
-      water.style.height = "0%";
-      zone.style.display = "none";
-      hint.style.display = "none";
-      result.style.display = "block";
-      fullScreenConfetti();
-    });
-
+  // Start the music
+  document.getElementById("vdaySong").play().catch(() => {});
+  
+  // START THE HEARTS NOW! 🎉
+  setInterval(createHeart, 500); 
+  
+  // Everything else stays the same
+  water.style.height = "0%";
+  zone.style.display = "none";
+  hint.style.display = "none";
+  result.style.display = "block";
+  fullScreenConfetti();
+});
     noBtn.addEventListener("click", e => e.preventDefault());
   </script>
 </body>
