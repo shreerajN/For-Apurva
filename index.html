@@ -9,6 +9,18 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
   <style>
+    #waterLevel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0%; 
+  background: rgba(0, 150, 255, 0.4); /* Soft blue */
+  backdrop-filter: blur(4px);
+  transition: height 0.6s ease-out;
+  z-index: 5; /* Behind the card, but visible */
+  pointer-events: none;
+}
     /* Floating animation for background hearts */
 .floating-heart {
   position: fixed;
@@ -153,6 +165,7 @@
 </head>
 
 <body>
+  <div id="waterLevel"></div>
   <audio id="vdaySong">
   <source src="song.mp3" type="audio/mpeg">
 </audio>
@@ -300,6 +313,14 @@ const messages = [
   "Apuuuuu, please? 🥺"
 ];
 
+let sadnessScore = 0;
+const mainSticker = document.getElementById("mainSticker");
+const water = document.getElementById("waterLevel");
+
+// The high-quality Giphy links for the stickers you chose
+const happySticker = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmVvNXBpZzB0Mnd6Ym0yeHd4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JnB0PWEmcD0x/5Fgj4gX2149b0QZLog/giphy.gif";
+const sadSticker = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmVvNXBpZzB0Mnd6Ym0yeHd4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JnB0PWEmcD0x/aGn40hodHl0USaK2N6/giphy.gif";
+
 function moveNo(px, py) {
   const z = zone.getBoundingClientRect();
   const b = noBtn.getBoundingClientRect();
@@ -320,28 +341,51 @@ function moveNo(px, py) {
   noBtn.style.top = newTop + "px";
   noBtn.style.transform = "none";
 
-  /* 2. THIS IS THE MAGIC LINE: It picks a random message from the list above */
+  // Update button text
   noBtn.innerText = messages[Math.floor(Math.random() * messages.length)];
+
+  // SADNESS LOGIC
+  sadnessScore++;
+  if (sadnessScore > 1) {
+    mainSticker.src = sadSticker;
+    // Water rises 8% per attempt, capped at 85%
+    water.style.height = Math.min(85, sadnessScore * 8) + "%"; 
+  }
 
   growYes();
 }
 
-    zone.addEventListener("pointermove", e => {
-      const b = noBtn.getBoundingClientRect();
-      const d = Math.hypot(
-        (b.left + b.width / 2) - e.clientX,
-        (b.top + b.height / 2) - e.clientY
-      );
-      if (d < 140) moveNo(e.clientX, e.clientY);
-    });
+zone.addEventListener("pointermove", e => {
+  const bNo = noBtn.getBoundingClientRect();
+  const bYes = yesBtn.getBoundingClientRect();
+  
+  const dNo = Math.hypot((bNo.left + bNo.width/2) - e.clientX, (bNo.top + bNo.height/2) - e.clientY);
+  const dYes = Math.hypot((bYes.left + bYes.width/2) - e.clientX, (bYes.top + bYes.height/2) - e.clientY);
 
-    noBtn.addEventListener("click", e => e.preventDefault());
+  // If she nears "No", trigger the runaway and the sadness
+  if (dNo < 140) {
+    moveNo(e.clientX, e.clientY);
+  }
 
-    /* ---------- YES CLICK ---------- */
+  // If she nears "Yes", the sticker glows and turns happy!
+  if (dYes < 250) {
+    mainSticker.src = happySticker;
+    const brightness = 1 + (250 - dYes) / 150;
+    mainSticker.style.filter = `brightness(${brightness}) drop-shadow(0 0 15px #fff)`;
+  } else if (sadnessScore < 2) {
+    mainSticker.style.filter = "none";
+  }
+});
+
+noBtn.addEventListener("click", e => e.preventDefault());
+
+/* ---------- YES CLICK ---------- */
 yesBtn.addEventListener("click", () => {
-  // THIS IS THE NEW LINE TO START THE MUSIC
   document.getElementById("vdaySong").play();
-
+  
+  // Hide the floating water when she says yes!
+  water.style.height = "0%";
+  
   zone.style.display = "none";
   hint.style.display = "none";
   result.style.display = "block";
