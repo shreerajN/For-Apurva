@@ -4,45 +4,45 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Will you be my Valentine?</title>
-<link rel="icon" href="https://fav.farm/❤️" />
-  <!-- Confetti library -->
+  <link rel="icon" href="https://fav.farm/❤️" />
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
   <style>
     #waterLevel {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 0%; 
-  background: rgba(0, 150, 255, 0.4); /* Soft blue */
-  backdrop-filter: blur(4px);
-  transition: height 0.6s ease-out;
-  z-index: 5; /* Behind the card, but visible */
-  pointer-events: none;
-}
-    /* Floating animation for background hearts */
-.floating-heart {
-  position: fixed;
-  font-size: 24px;
-  user-select: none;
-  pointer-events: none;
-  z-index: -1;
-  animation: floatUp 6s linear infinite;
-  opacity: 0;
-}
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 0%; 
+      background: rgba(0, 150, 255, 0.4);
+      backdrop-filter: blur(4px);
+      transition: height 0.6s ease-out;
+      z-index: 5;
+      pointer-events: none;
+    }
+    
+    .floating-heart {
+      position: fixed;
+      font-size: 24px;
+      user-select: none;
+      pointer-events: none;
+      z-index: -1;
+      animation: floatUp 6s linear infinite;
+      opacity: 0;
+    }
 
-@keyframes floatUp {
-  0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
-  100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
-}
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+    }
+
     :root {
-  --bg1: #e0c3fc; /* Light Purple */
-  --bg2: #fbc2eb; /* Soft Pink */
-  --card: #ffffffcc;
-  --yes: #9b5de5; /* Deep Purple */
-  --yesHover: #8338ec;
-}
+      --bg1: #e0c3fc;
+      --bg2: #fbc2eb;
+      --card: #ffffffcc;
+      --yes: #9b5de5;
+      --yesHover: #8338ec;
+    }
 
     * { box-sizing: border-box; }
 
@@ -57,7 +57,6 @@
       padding: 16px;
     }
 
-    /* FULL-SCREEN CONFETTI CANVAS */
     #confettiCanvas {
       position: fixed;
       inset: 0;
@@ -75,25 +74,26 @@
       border-radius: 22px;
       text-align: center;
       box-shadow: 0 18px 60px rgba(0,0,0,.15);
+      position: relative;
+      z-index: 10;
     }
 
     .art {
-      width: min(260px, 80vw);
+      width: min(200px, 60vw);
       margin: 0 auto 10px;
       display: block;
       filter: drop-shadow(0 10px 14px rgba(0,0,0,.12));
-      /* ADD THIS LINE BELOW */
       animation: float 3s ease-in-out infinite;
     }
 
     h1 {
-      font-size: clamp(26px, 4vw, 44px);
+      font-size: clamp(22px, 4vw, 36px);
       margin: 12px 0 18px;
     }
 
     .button-zone {
       position: relative;
-      width: min(520px, 92%);
+      width: 100%;
       height: 150px;
       margin: 0 auto;
       touch-action: none;
@@ -111,19 +111,17 @@
       cursor: pointer;
       box-shadow: 0 10px 24px rgba(0,0,0,.14);
       user-select: none;
-      -webkit-tap-highlight-color: transparent;
       transition: transform .12s ease, background .12s ease;
     }
 
     #yesBtn {
-      left: 18%;
+      left: 10%;
       background: var(--yes);
       color: #fff;
     }
-    #yesBtn:hover { background: var(--yesHover); }
 
     #noBtn {
-      left: 62%;
+      right: 10%;
       background: #e5e7eb;
       color: #111827;
     }
@@ -140,26 +138,14 @@
       animation: pop .35s ease;
     }
 
-    .result h2 {
-      font-size: clamp(30px, 4.5vw, 46px);
-      margin: 10px 0;
-    }
-
-    .fireworks {
-      width: min(380px, 90vw);
-      margin: 0 auto;
-      display: block;
-    }
-
     @keyframes pop {
       from { transform: scale(.96); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
     }
 
-    /* ADD THE FLOAT KEYFRAMES HERE */
     @keyframes float {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
+      50% { transform: translateY(-15px); }
     }
   </style>
 </head>
@@ -167,48 +153,12 @@
 <body>
   <div id="waterLevel"></div>
   <audio id="vdaySong">
-  <source src="song.mp3" type="audio/mpeg">
-</audio>
+    <source src="song.mp3" type="audio/mpeg">
+  </audio>
   <canvas id="confettiCanvas"></canvas>
 
   <main class="card">
-    <!-- ANIMAL WITH HEART -->
-    <svg class="art" viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="fur" x1="0" x2="1">
-          <stop offset="0" stop-color="#f7c7a1"/>
-          <stop offset="1" stop-color="#f2a97b"/>
-        </linearGradient>
-        <linearGradient id="heart" x1="0" x2="1">
-          <stop offset="0" stop-color="#ff4d7d"/>
-          <stop offset="1" stop-color="#ff1f68"/>
-        </linearGradient>
-      </defs>
-
-      <path d="M250 50 C250 33 270 25 282 38
-               C294 25 314 33 314 50
-               C314 78 282 92 282 106
-               C282 92 250 78 250 50Z"
-            fill="url(#heart)"/>
-
-      <path d="M90 120 C90 70 140 40 190 60
-               C240 40 290 70 290 120
-               C290 180 240 210 190 210
-               C140 210 90 180 90 120Z"
-            fill="url(#fur)"/>
-
-      <path d="M110 92 L95 55 L140 78 Z" fill="#f2a97b"/>
-      <path d="M270 92 L285 55 L240 78 Z" fill="#f2a97b"/>
-
-      <circle cx="160" cy="130" r="8"/>
-      <circle cx="220" cy="130" r="8"/>
-
-      <path d="M190 144 C186 144 182 148 182 152
-               C182 160 190 164 190 170
-               C190 164 198 160 198 152
-               C198 148 194 144 190 144Z"
-            fill="#ff7aa2"/>
-    </svg>
+    <img id="mainSticker" class="art" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmVvNXBpZzB0Mnd6Ym0yeHd4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JnB0PWEmcD0x/5Fgj4gX2149b0QZLog/giphy.gif" alt="Cute Sticker">
 
     <h1>Apurva will you be my valentine?</h1>
 
@@ -217,186 +167,114 @@
       <button id="noBtn">No</button>
     </section>
 
-    <!-- HINT -->
     <div class="hint" id="hint">“No” seems a bit rude 😈</div>
 
     <section class="result" id="result">
-  <h2>YAY! 🎉</h2>
-  <p style="font-size: 1.2rem; color: #ff3b7a; font-weight: 600;">
-    I knew you'd say yes, Apurvaaaaa! ❤️ <br> 
-  </p>
-  <img class="fireworks" src="https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif" alt="Fireworks" />
-</section>
+      <h2>YAY! 🎉 ❤️</h2>
+      <p style="font-size: 1.2rem; color: #ff3b7a; font-weight: 600;">
+        I knew you'd say yes, Apurvaaaaa!
+      </p>
+      <img style="width: 100%; border-radius: 15px;" src="https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif" alt="Fireworks" />
+    </section>
   </main>
 
   <script>
+    /* 1. Background Hearts */
     function createHeart() {
-  const heart = document.createElement("div");
-  heart.className = "floating-heart";
-  heart.innerHTML = ["❤️", "💖", "🌸", "✨"][Math.floor(Math.random() * 4)];
-  heart.style.left = Math.random() * 100 + "vw";
-  heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
-  document.body.appendChild(heart);
-  setTimeout(() => heart.remove(), 6000);
-}
-setInterval(createHeart, 500);
+      const heart = document.createElement("div");
+      heart.className = "floating-heart";
+      heart.innerHTML = ["❤️", "💖", "🌸", "✨"][Math.floor(Math.random() * 4)];
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }
+    setInterval(createHeart, 600);
+
     const zone = document.getElementById("zone");
     const yesBtn = document.getElementById("yesBtn");
     const noBtn = document.getElementById("noBtn");
     const result = document.getElementById("result");
     const hint = document.getElementById("hint");
+    const mainSticker = document.getElementById("mainSticker");
+    const water = document.getElementById("waterLevel");
 
     /* ---------- CONFETTI ---------- */
     const confettiCanvas = document.getElementById("confettiCanvas");
-
     function resizeConfettiCanvas() {
       const dpr = Math.max(1, window.devicePixelRatio || 1);
       confettiCanvas.width = Math.floor(window.innerWidth * dpr);
       confettiCanvas.height = Math.floor(window.innerHeight * dpr);
-      confettiCanvas.style.width = "100vw";
-      confettiCanvas.style.height = "100vh";
     }
-
     resizeConfettiCanvas();
     window.addEventListener("resize", resizeConfettiCanvas);
-    window.addEventListener("orientationchange", () => setTimeout(resizeConfettiCanvas, 150));
-
-    const confettiInstance = confetti.create(confettiCanvas, {
-      resize: false,
-      useWorker: true
-    });
+    const confettiInstance = confetti.create(confettiCanvas, { resize: false, useWorker: true });
 
     function fullScreenConfetti() {
-      const end = Date.now() + 1600;
-
+      const end = Date.now() + 2000;
       (function frame() {
-        confettiInstance({
-          particleCount: 12,
-          spread: 90,
-          startVelocity: 45,
-          ticks: 180,
-          origin: { x: Math.random(), y: Math.random() * 0.3 }
-        });
+        confettiInstance({ particleCount: 10, spread: 90, origin: { x: Math.random(), y: Math.random() - 0.2 } });
         if (Date.now() < end) requestAnimationFrame(frame);
       })();
-
-      setTimeout(() => {
-        confettiInstance({
-          particleCount: 300,
-          spread: 140,
-          startVelocity: 60,
-          ticks: 220,
-          origin: { x: 0.5, y: 0.55 }
-        });
-      }, 300);
     }
 
-    /* ---------- YES BUTTON GROWS ---------- */
+    /* ---------- LOGIC ---------- */
     let yesScale = 1;
-    function growYes() {
-      yesScale = Math.min(2.2, yesScale + 0.1);
+    let sadnessScore = 0;
+    const messages = ["Are you sure?", "Think again!", "Pleeaaaase?", "You're breaking my heart 💔", "Error: Try 'Yes'", "Apuuuuu, please? 🥺"];
+    const happySticker = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmVvNXBpZzB0Mnd6Ym0yeHd4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JnB0PWEmcD0x/5Fgj4gX2149b0QZLog/giphy.gif";
+    const sadSticker = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmVvNXBpZzB0Mnd6Ym0yeHd4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JnB0PWEmcD0x/aGn40hodHl0USaK2N6/giphy.gif";
+
+    function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+
+    function moveNo(px, py) {
+      const z = zone.getBoundingClientRect();
+      const b = noBtn.getBoundingClientRect();
+      let dx = (b.left + b.width / 2) - px;
+      let dy = (b.top + b.height / 2) - py;
+      let mag = Math.hypot(dx, dy) || 1;
+      let newLeft = (b.left - z.left) + (dx / mag) * 150;
+      let newTop = (b.top - z.top) + (dy / mag) * 150;
+
+      noBtn.style.left = clamp(newLeft, 0, z.width - b.width) + "px";
+      noBtn.style.top = clamp(newTop, 0, z.height - b.height) + "px";
+      noBtn.innerText = messages[Math.floor(Math.random() * messages.length)];
+
+      sadnessScore++;
+      if (sadnessScore > 1) {
+        mainSticker.src = sadSticker;
+        water.style.height = Math.min(85, sadnessScore * 8) + "%";
+      }
+      yesScale = Math.min(2.5, yesScale + 0.1);
       yesBtn.style.transform = `translateY(-50%) scale(${yesScale})`;
     }
 
-    /* ---------- NO BUTTON RUNS AWAY ---------- */
-    function clamp(n, min, max) {
-      return Math.max(min, Math.min(max, n));
-    }
+    zone.addEventListener("pointermove", e => {
+      const bNo = noBtn.getBoundingClientRect();
+      const bYes = yesBtn.getBoundingClientRect();
+      const dNo = Math.hypot((bNo.left + bNo.width/2) - e.clientX, (bNo.top + bNo.height/2) - e.clientY);
+      const dYes = Math.hypot((bYes.left + bYes.width/2) - e.clientX, (bYes.top + bYes.height/2) - e.clientY);
 
-    /* 1. This is the list of messages the button will cycle through */
-const messages = [
-  "Are you sure?", 
-  "Think again!", 
-  "Pleeaaaase?", 
-  "You're breaking my heart 💔", 
-  "Error: Try 'Yes'",
-  "Apuuuuu, please? 🥺"
-];
+      if (dNo < 120) moveNo(e.clientX, e.clientY);
 
-let sadnessScore = 0;
-const mainSticker = document.getElementById("mainSticker");
-const water = document.getElementById("waterLevel");
+      if (dYes < 200) {
+        mainSticker.src = happySticker;
+        mainSticker.style.filter = `brightness(${1 + (200 - dYes) / 100}) drop-shadow(0 0 10px #fff)`;
+      } else if (sadnessScore < 2) {
+        mainSticker.style.filter = "none";
+      }
+    });
 
-// The high-quality Giphy links for the stickers you chose
-const happySticker = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmVvNXBpZzB0Mnd6Ym0yeHd4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JnB0PWEmcD0x/5Fgj4gX2149b0QZLog/giphy.gif";
-const sadSticker = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmVvNXBpZzB0Mnd6Ym0yeHd4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JnB0PWEmcD0x/aGn40hodHl0USaK2N6/giphy.gif";
+    yesBtn.addEventListener("click", () => {
+      document.getElementById("vdaySong").play().catch(() => {});
+      water.style.height = "0%";
+      zone.style.display = "none";
+      hint.style.display = "none";
+      result.style.display = "block";
+      fullScreenConfetti();
+    });
 
-function moveNo(px, py) {
-  const z = zone.getBoundingClientRect();
-  const b = noBtn.getBoundingClientRect();
-
-  let dx = (b.left + b.width / 2) - px;
-  let dy = (b.top + b.height / 2) - py;
-  let mag = Math.hypot(dx, dy) || 1;
-  dx /= mag;
-  dy /= mag;
-
-  let newLeft = (b.left - z.left) + dx * 150;
-  let newTop  = (b.top - z.top) + dy * 150;
-
-  newLeft = clamp(newLeft, 0, z.width - b.width);
-  newTop  = clamp(newTop, 0, z.height - b.height);
-
-  noBtn.style.left = newLeft + "px";
-  noBtn.style.top = newTop + "px";
-  noBtn.style.transform = "none";
-
-  // Update button text
-  noBtn.innerText = messages[Math.floor(Math.random() * messages.length)];
-
-  // SADNESS LOGIC
-  sadnessScore++;
-  if (sadnessScore > 1) {
-    mainSticker.src = sadSticker;
-    // Water rises 8% per attempt, capped at 85%
-    water.style.height = Math.min(85, sadnessScore * 8) + "%"; 
-  }
-
-  growYes();
-}
-
-zone.addEventListener("pointermove", e => {
-  const bNo = noBtn.getBoundingClientRect();
-  const bYes = yesBtn.getBoundingClientRect();
-  
-  const dNo = Math.hypot((bNo.left + bNo.width/2) - e.clientX, (bNo.top + bNo.height/2) - e.clientY);
-  const dYes = Math.hypot((bYes.left + bYes.width/2) - e.clientX, (bYes.top + bYes.height/2) - e.clientY);
-
-  // If she nears "No", trigger the runaway and the sadness
-  if (dNo < 140) {
-    moveNo(e.clientX, e.clientY);
-  }
-
-  // If she nears "Yes", the sticker glows and turns happy!
-  if (dYes < 250) {
-    mainSticker.src = happySticker;
-    const brightness = 1 + (250 - dYes) / 150;
-    mainSticker.style.filter = `brightness(${brightness}) drop-shadow(0 0 15px #fff)`;
-  } else if (sadnessScore < 2) {
-    mainSticker.style.filter = "none";
-  }
-});
-
-noBtn.addEventListener("click", e => e.preventDefault());
-
-/* ---------- YES CLICK ---------- */
-yesBtn.addEventListener("click", () => {
-  document.getElementById("vdaySong").play();
-  
-  // Hide the floating water when she says yes!
-  water.style.height = "0%";
-  
-  zone.style.display = "none";
-  hint.style.display = "none";
-  result.style.display = "block";
-  resizeConfettiCanvas();
-  fullScreenConfetti();
-});
+    noBtn.addEventListener("click", e => e.preventDefault());
   </script>
 </body>
 </html>
-
-
-
-
-
