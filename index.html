@@ -262,28 +262,41 @@
       return Math.max(min, Math.min(max, n));
     }
 
-    function moveNo(px, py) {
-      const z = zone.getBoundingClientRect();
-      const b = noBtn.getBoundingClientRect();
+    /* 1. This is the list of messages the button will cycle through */
+const messages = [
+  "Are you sure?", 
+  "Think again!", 
+  "Pleeaaaase?", 
+  "You're breaking my heart 💔", 
+  "Error: Try 'Yes'",
+  "Apuuuuu, please? 🥺"
+];
 
-      let dx = (b.left + b.width / 2) - px;
-      let dy = (b.top + b.height / 2) - py;
-      let mag = Math.hypot(dx, dy) || 1;
-      dx /= mag;
-      dy /= mag;
+function moveNo(px, py) {
+  const z = zone.getBoundingClientRect();
+  const b = noBtn.getBoundingClientRect();
 
-      let newLeft = (b.left - z.left) + dx * 150;
-      let newTop  = (b.top - z.top) + dy * 150;
+  let dx = (b.left + b.width / 2) - px;
+  let dy = (b.top + b.height / 2) - py;
+  let mag = Math.hypot(dx, dy) || 1;
+  dx /= mag;
+  dy /= mag;
 
-      newLeft = clamp(newLeft, 0, z.width - b.width);
-      newTop  = clamp(newTop, 0, z.height - b.height);
+  let newLeft = (b.left - z.left) + dx * 150;
+  let newTop  = (b.top - z.top) + dy * 150;
 
-      noBtn.style.left = newLeft + "px";
-      noBtn.style.top = newTop + "px";
-      noBtn.style.transform = "none";
+  newLeft = clamp(newLeft, 0, z.width - b.width);
+  newTop  = clamp(newTop, 0, z.height - b.height);
 
-      growYes();
-    }
+  noBtn.style.left = newLeft + "px";
+  noBtn.style.top = newTop + "px";
+  noBtn.style.transform = "none";
+
+  /* 2. THIS IS THE MAGIC LINE: It picks a random message from the list above */
+  noBtn.innerText = messages[Math.floor(Math.random() * messages.length)];
+
+  growYes();
+}
 
     zone.addEventListener("pointermove", e => {
       const b = noBtn.getBoundingClientRect();
