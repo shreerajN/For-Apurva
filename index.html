@@ -8,6 +8,25 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
   <style>
+    .polaroid {
+  background: white;
+  padding: 8px 8px 15px 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  border-radius: 2px;
+  /* This prevents the polaroid from being bigger than its grid cell */
+  max-width: 100%; 
+  box-sizing: border-box;
+}
+
+.polaroid img {
+  width: 100%;
+  /* This is the magic part: it forces the image to be a square 
+     without stretching it weirdly */
+  aspect-ratio: 1/1; 
+  object-fit: cover; 
+  display: block;
+  border-radius: 2px;
+}
     #waterLevel {
   position: fixed;
   bottom: 0;
@@ -179,12 +198,19 @@
     I knew you'd say yes, Apurvaaaaa!!!!!!
   </p>
 
-  <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; max-width: 380px; margin: 0 auto;">
-    <div class="polaroid" style="transform: rotate(-2deg);"><img src="us1.jpg"></div>
-    <div class="polaroid" style="transform: rotate(3deg);"><img src="us2.jpg"></div>
-    <div class="polaroid" style="transform: rotate(-3deg);"><img src="us3.jpg"></div>
-    <div class="polaroid" style="transform: rotate(2deg);"><img src="us4.jpg"></div>
-  </div>
+  <div style="
+  display: grid; 
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 10px; 
+  width: 100%; 
+  max-width: 320px; /* Adjust this to fit your card width */
+  margin: 0 auto;
+">
+  <div class="polaroid" style="transform: rotate(-2deg);"><img src="us1.jpg"></div>
+  <div class="polaroid" style="transform: rotate(3deg);"><img src="us2.jpg"></div>
+  <div class="polaroid" style="transform: rotate(-3deg);"><img src="us3.jpg"></div>
+  <div class="polaroid" style="transform: rotate(2deg);"><img src="us4.jpg"></div>
+</div>
   
   <p style="font-family: 'Brush Script MT', cursive; font-size: 1.6rem; margin-top: 25px; color: #9b5de5;">
     To many more memories together! 🥂
