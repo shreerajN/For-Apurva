@@ -9,6 +9,21 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
   <style>
+    /* Floating animation for background hearts */
+.floating-heart {
+  position: fixed;
+  font-size: 24px;
+  user-select: none;
+  pointer-events: none;
+  z-index: -1;
+  animation: floatUp 6s linear infinite;
+  opacity: 0;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
     :root {
   --bg1: #e0c3fc; /* Light Purple */
   --bg2: #fbc2eb; /* Soft Pink */
@@ -202,6 +217,16 @@
   </main>
 
   <script>
+    function createHeart() {
+  const heart = document.createElement("div");
+  heart.className = "floating-heart";
+  heart.innerHTML = ["❤️", "💖", "🌸", "✨"][Math.floor(Math.random() * 4)];
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 6000);
+}
+setInterval(createHeart, 500);
     const zone = document.getElementById("zone");
     const yesBtn = document.getElementById("yesBtn");
     const noBtn = document.getElementById("noBtn");
