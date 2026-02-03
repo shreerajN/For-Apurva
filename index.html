@@ -313,19 +313,25 @@
   }
     });
 
-    yesBtn.addEventListener("click", () => {
-  // Start the music
-  document.getElementById("vdaySong").play().catch(() => {});
+    /* ---------- YES CLICK ---------- */
+yesBtn.addEventListener("click", () => {
+  // 1. Play Music
+  const song = document.getElementById("vdaySong");
+  song.play().catch(() => {});
   
-  // START THE HEARTS NOW! 🎉
-  setInterval(createHeart, 500); 
+  // 2. Hide everything from the first screen to make space
+  document.querySelector("h1").style.display = "none"; // Hides "Apurva will you..."
+  mainSticker.style.display = "none";                 // Hides the Cat
+  zone.style.display = "none";                         // Hides Buttons
+  hint.style.display = "none";                         // Hides "No seems rude"
   
-  // Everything else stays the same
-  water.style.height = "0%";
-  zone.style.display = "none";
-  hint.style.display = "none";
+  // 3. Show the photos and start effects
   result.style.display = "block";
+  setInterval(createHeart, 400); 
   fullScreenConfetti();
+  
+  // 4. Reset the water level
+  if(water) water.style.height = "0%";
 });
     noBtn.addEventListener("click", e => e.preventDefault());
   </script>
