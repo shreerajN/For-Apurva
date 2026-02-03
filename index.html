@@ -261,11 +261,21 @@
       if (dNo < 120) moveNo(e.clientX, e.clientY);
 
       if (dYes < 200) {
-        mainSticker.src = happySticker;
-        mainSticker.style.filter = `brightness(${1 + (200 - dYes) / 100}) drop-shadow(0 0 10px #fff)`;
-      } else if (sadnessScore < 2) {
-        mainSticker.style.filter = "none";
-      }
+    mainSticker.src = happySticker;
+    
+    // Instead of brightness, let's use a subtle scale and a purple glow
+    const scale = 1 + (200 - dYes) / 1000; // Gently grows
+    mainSticker.style.transform = `scale(${scale})`;
+    
+    // Adds a soft purple pulse instead of turning the image white
+    mainSticker.style.filter = `drop-shadow(0 0 15px #9b5de5)`; 
+  } else {
+    mainSticker.style.transform = `scale(1)`;
+    // Only reset filter if the cat isn't supposed to be sad
+    if (sadnessScore < 2) {
+      mainSticker.style.filter = "none";
+    }
+  }
     });
 
     yesBtn.addEventListener("click", () => {
