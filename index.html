@@ -263,15 +263,14 @@
       if (dYes < 200) {
     mainSticker.src = happySticker;
     
-    // Instead of brightness, let's use a subtle scale and a purple glow
-    const scale = 1 + (200 - dYes) / 1000; // Gently grows
+    // The cat grows slightly as she nears "Yes"
+    const scale = 1 + (200 - dYes) / 1000; 
     mainSticker.style.transform = `scale(${scale})`;
     
-    // Adds a soft purple pulse instead of turning the image white
-    mainSticker.style.filter = `drop-shadow(0 0 15px #9b5de5)`; 
+    // Golden Yellow Glow (matching the sticker's sparkles)
+    mainSticker.style.filter = `drop-shadow(0 0 20px #FFD700) drop-shadow(0 0 10px #FFA500)`; 
   } else {
     mainSticker.style.transform = `scale(1)`;
-    // Only reset filter if the cat isn't supposed to be sad
     if (sadnessScore < 2) {
       mainSticker.style.filter = "none";
     }
