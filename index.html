@@ -138,6 +138,9 @@
 </head>
 
 <body>
+  <audio id="vdaySong">
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
   <canvas id="confettiCanvas"></canvas>
 
   <main class="card">
@@ -310,13 +313,16 @@ function moveNo(px, py) {
     noBtn.addEventListener("click", e => e.preventDefault());
 
     /* ---------- YES CLICK ---------- */
-    yesBtn.addEventListener("click", () => {
-      zone.style.display = "none";
-      hint.style.display = "none";     // HIDE THE HINT
-      result.style.display = "block";
-      resizeConfettiCanvas();
-      fullScreenConfetti();
-    });
+yesBtn.addEventListener("click", () => {
+  // THIS IS THE NEW LINE TO START THE MUSIC
+  document.getElementById("vdaySong").play();
+
+  zone.style.display = "none";
+  hint.style.display = "none";
+  result.style.display = "block";
+  resizeConfettiCanvas();
+  fullScreenConfetti();
+});
   </script>
 </body>
 </html>
